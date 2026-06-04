@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Work | Roka Projects</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terracotta:#ed542b;
+  --indigo:#1d2d60;
+  --black:#000000;
+  --platinum:#ededef;
+  --white:#ffffff;
+  --ink:#1a1a1a;
+  --muted:#6b6f76;
+  --line:#e3e3e6;
+  --radius:4px;
+  --maxw:1240px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  color:var(--ink);
+  background:var(--white);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* Header band */
+.intro{padding:48px 0 28px}
+.intro h1{
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  font-size:clamp(30px,4.5vw,46px);
+  letter-spacing:-0.02em;
+  color:var(--indigo);
+  margin-bottom:14px;
+}
+.intro p{
+  font-family:'Quicksand',sans-serif;
+  font-weight:400;
+  font-size:clamp(15px,1.6vw,18px);
+  color:var(--muted);
+  max-width:620px;
+}
+
+/* Filters */
+.filters{
+  position:sticky;top:0;z-index:20;
+  background:rgba(255,255,255,0.94);
+  backdrop-filter:saturate(180%) blur(8px);
+  border-bottom:1px solid var(--line);
+  padding:14px 0;
+}
+.filter-row{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.filter-group{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.filter-label{
+  font-family:'Quicksand',sans-serif;font-weight:600;font-size:12px;
+  text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);
+  margin-right:2px;
+}
+.pill{
+  font-family:'Quicksand',sans-serif;font-weight:500;font-size:13.5px;
+  border:1px solid var(--line);background:var(--white);color:var(--ink);
+  padding:7px 15px;border-radius:999px;cursor:pointer;transition:all .15s ease;
+  white-space:nowrap;
+}
+.pill:hover{border-color:var(--indigo);color:var(--indigo)}
+.pill.active{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.pill.loc.active{background:var(--terracotta);border-color:var(--terracotta)}
+.count{
+  font-family:'Quicksand',sans-serif;font-size:13px;color:var(--muted);
+  margin-left:auto;white-space:nowrap;
+}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:26px;
+  padding:34px 0 64px;
+}
+@media(max-width:920px){.grid{grid-template-columns:repeat(2,1fr);gap:20px}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+
+.card{
+  display:flex;flex-direction:column;
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  opacity:0;animation:rise .5s ease forwards;
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.card{transform:translateY(12px)}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 14px 34px rgba(29,45,96,0.14);
+  border-color:transparent;
+}
+.thumb{
+  position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--platinum);
+}
+.thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.card:hover .thumb img{transform:scale(1.05)}
+.loc-tag{
+  position:absolute;top:12px;left:12px;
+  font-family:'Quicksand',sans-serif;font-weight:600;font-size:11.5px;
+  text-transform:uppercase;letter-spacing:0.06em;
+  background:rgba(29,45,96,0.92);color:#fff;
+  padding:5px 10px;border-radius:3px;
+}
+.body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
+.card h3{
+  font-family:'Inter',sans-serif;font-weight:600;font-size:18px;
+  letter-spacing:-0.01em;color:var(--indigo);margin-bottom:6px;line-height:1.25;
+}
+.scope{
+  font-family:'Quicksand',sans-serif;font-weight:500;font-size:12.5px;
+  color:var(--terracotta);margin-bottom:10px;
+}
+.blurb{font-size:13.5px;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1}
+.meta{
+  display:flex;flex-wrap:wrap;gap:14px;
+  font-family:'Quicksand',sans-serif;font-size:12px;color:var(--ink);
+  padding-top:12px;border-top:1px solid var(--line);
+}
+.meta span{display:inline-flex;flex-direction:column;line-height:1.3}
+.meta b{font-weight:600;font-size:13px;color:var(--indigo)}
+.meta small{font-size:10.5px;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted)}
+.view{
+  margin-top:14px;
+  font-family:'Quicksand',sans-serif;font-weight:600;font-size:13px;
+  color:var(--terracotta);display:inline-flex;align-items:center;gap:6px;
+}
+.view svg{transition:transform .2s ease}
+.card:hover .view svg{transform:translateX(4px)}
+
+.empty{
+  grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);
+  font-family:'Quicksand',sans-serif;font-size:16px;
+}
+</style>
+</head>
+<body>
+
+<section class="intro wrap">
+  <h1>Our Work</h1>
+  <p>Completed renovation and construction projects across Vancouver, North Vancouver, West Vancouver, and Burnaby. Full home remodels, kitchens, bathrooms, structural work, and exterior renovations.</p>
+</section>
+
+<div class="filters">
+  <div class="wrap filter-row">
+    <div class="filter-group" id="catFilters">
+      <span class="filter-label">Service</span>
+    </div>
+    <div class="filter-group" id="locFilters">
+      <span class="filter-label">Area</span>
+    </div>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+</main>
+
+<script>
+const PROJECTS = [{"title": "Burnaby Home", "slug": "burnaby-home", "url": "https://www.rokaprojects.ca/burnaby-home", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1754588304009-XOHN23H6QTI8B4IQ7E00/JJ_Interiors_East_6th_Tracey_Ayton_Photography1449-Edit.jpg", "location": "Burnaby", "type": "Home Renovation", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms", "Structural"], "timeline": "9 months", "cost": 602500, "year": "2024", "blurb": "The homeowners wanted to reimagine their entire interior, transforming a dated and compartmentalized house into a bright, open, and modern family home. Their top priority was to remove walls on the main floor and create a seamless open-..."}, {"title": "Downtown Vancouver townhouse", "slug": "downtown-vancouver-townhouse", "url": "https://www.rokaprojects.ca/downtown-vancouver-townhouse", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1754598320362-471DO8KNHJYP79WFWQ8J/Roka_Projects_Accentrix_Designs_Homer_Street_Tracey_Ayton_Photography_6596-Edit.jpg", "location": "Vancouver", "type": "Townhouse Renovation", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms"], "timeline": "9 months", "cost": 374000, "year": "2024", "blurb": "The homeowners wanted to completely reinvent their townhouse with a full interior renovation that delivered both function and luxury. Their goal was to transform a closed-off and dated layout into a modern, open space that reflected thei..."}, {"title": "East Vancouver Home", "slug": "east-vancouver-home", "url": "https://www.rokaprojects.ca/east-vancouver-home", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1754589036290-NVUWMQ3Z7KC7K8JH1SQF/220928_EOS_6566.jpg", "location": "Vancouver", "type": null, "categories": ["Renovations & Additions", "Kitchens", "Bathrooms", "Structural"], "timeline": "5 months", "cost": 260000, "year": "2022", "blurb": "The homeowners wanted to transform the main floor of their home into a brighter, more open space designed for everyday living and larger gatherings. Their priority was to remove a dividing wall to create better flow, upgrading the struct..."}, {"title": "Downtown Vancouver Condo", "slug": "olympic-village-condo", "url": "https://www.rokaprojects.ca/olympic-village-condo", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1754589532366-P8H2G9N2BT7OBJ2ONYQZ/120+Milross+Ave-3.jpg", "location": "Vancouver", "type": "Condo Renovation", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms"], "timeline": "6 months", "cost": 263000, "year": "2021", "blurb": "The homeowners wanted to modernize their condo with a complete interior renovation that elevated both comfort and style. Their priority was updating the kitchen and bathrooms to create spaces that felt fresh, functional, and tailored to..."}, {"title": "East Vancouver Basement Suite", "slug": "east-vancouver-basement-suite", "url": "https://www.rokaprojects.ca/east-vancouver-basement-suite", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1764709174541-SL367279HN0O1Y7UR525/IMG_3102_2024-02-16_16_36_04%2B%25281%2529.jpg", "location": "Vancouver", "type": "Legal Basement Suite", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms", "Structural"], "timeline": "12 months", "cost": 197500, "year": "2023", "blurb": "The homeowners wanted to maximize the functionality and value of their home by converting their unfinished basement into a legal two-bedroom suite. Their goal was to create a fully self-contained rental unit that would generate income wh..."}, {"title": "West Van Exterior Reno", "slug": "west-van-exterior-reno", "url": "https://www.rokaprojects.ca/west-van-exterior-reno", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1764794220294-TJD6DZ22V3HFB73KKWT7/IMG_1381.JPEG", "location": "West Vancouver", "type": "Patio rework, glass guardrail, structural repair", "categories": ["Structural", "Exterior Renovations"], "timeline": "4 months", "cost": 140000, "year": "2024", "blurb": "The homeowners were dealing with two major concerns: a leaking patio and structural deterioration in the garage. The existing patio was allowing water to enter the space below, and the beam supporting the front of the house within the ga..."}, {"title": "Langley Backyard", "slug": "langley-backyard", "url": "https://www.rokaprojects.ca/langley-backyard", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1765217435901-CJFJ6C77FFFWOY39KKHQ/IMG_2485.JPEG", "location": "Langley", "type": "Concrete walkway & Perimeter drainage", "categories": ["Exterior Renovations", "Structural"], "timeline": "6 weeks", "cost": 75000, "year": "2021", "blurb": "After a basement flood, the homeowners needed to resolve underlying water issues and ensure their home was protected for the long term. Their priority was to address the foundation damp-proofing, improve drainage, and rebuild the affecte..."}, {"title": "North Vancouver Bathroom", "slug": "north-vancouver-bathroom", "url": "https://www.rokaprojects.ca/north-vancouver-bathroom", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/28d6812b-8ece-4d00-a8ef-bf3ff07e8fc1/IMG_5659.JPEG", "location": "North Vancouver", "type": "Bathroom Renovation", "categories": ["Bathrooms"], "timeline": "3 months", "cost": 62000, "year": "2022", "blurb": "The homeowners wanted to enhance their primary bedroom by converting an existing walk-in closet into a private ensuite bathroom. Their priority was to add comfort and convenience, creating a functional retreat directly off the bedroom."}, {"title": "North Vancouver Ensuite", "slug": "north-vancouver-ensuite-bathroom", "url": "https://www.rokaprojects.ca/north-vancouver-ensuite-bathroom", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/7d52d996-f8e6-40a1-bd23-d23bc1dd66ba/IMG_2264.JPG", "location": "North Vancouver", "type": "Ensuite Addition", "categories": ["Bathrooms"], "timeline": "3 months", "cost": 54000, "year": null, "blurb": "The homeowners wanted to enhance their primary bedroom by converting an existing walk-in closet into a private ensuite bathroom. Their priority was to add comfort and convenience, creating a functional retreat directly off the bedroom."}, {"title": "North Vancouver Bathroom", "slug": "north-vancouver-bathroom-2", "url": "https://www.rokaprojects.ca/north-vancouver-bathroom-2", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/cbe3c283-90d7-401f-9d94-e72623e8e3f0/IMG_7930_1.jpg", "location": "North Vancouver", "type": "Bathroom Renovation, New doors, baseboard, casings, and paint", "categories": ["Renovations & Additions", "Bathrooms"], "timeline": "6 weeks", "cost": 40000, "year": null, "blurb": "For this family, the goal was simple: create a cost-efficient, durable bathroom their kids could use every day without worry. We upgraded the space with practical, long-lasting finishes designed to handle real-life wear and tear."}, {"title": "Delta Home", "slug": "deltahome", "url": "https://www.rokaprojects.ca/deltahome", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1764792704874-V7NJSFWSWCB51PGDF4FK/IMG_2456+%281%29.JPEG", "location": "Delta", "type": "Kitchen, Living Room, and Powder Room Renovation. Rot/Mold remediation", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms", "Structural"], "timeline": "4 months", "cost": null, "year": "2022", "blurb": "The homeowners wanted to refresh and modernize the entire main floor of their home, creating a space that felt open, welcoming, and well-finished. Their vision included a new kitchen as the centerpiece of family life, along with an updat..."}, {"title": "Vancouver Garage", "slug": "vancouver-garage", "url": "https://www.rokaprojects.ca/vancouver-garage", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1764802757962-98FCEE074LNDVHI5V0V6/2B335445-9634-4CF6-A140-A59EC47299A4_1_105_c.jpeg", "location": "Vancouver", "type": "Carport Structural repair", "categories": ["Structural", "Exterior Renovations"], "timeline": "3 weeks", "cost": 20000, "year": null, "blurb": "The homeowners contacted us after identifying several safety and structural concerns around their home. The most urgent issue was a cracked structural support holding up the carport and patio above, which needed immediate attention to en..."}, {"title": "Cloverdale Bathroom", "slug": "cloverdale-bathromm", "url": "https://www.rokaprojects.ca/cloverdale-bathromm", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1764794901042-9SCFYPZTTEEQBWT7LJU0/Roka_Cloverdale_Bathroom-1.jpg", "location": "Surrey", "type": "Bathroom Renovation", "categories": ["Bathrooms"], "timeline": "6 weeks", "cost": 18500, "year": "2020", "blurb": "The homeowners wanted to renovate their children’s bathroom to create a space that was both practical for daily routines and durable enough to withstand years of use. The existing bathroom felt dated and lacked the storage and functional..."}, {"title": "Pitt Meadows Retaining Wall", "slug": "pitt-meadows-retaining-wall", "url": "https://www.rokaprojects.ca/pitt-meadows-retaining-wall", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1765820707090-0QBHSX073Y70I4JXJUBX/IMG_7392.jpg", "location": "Pitt Meadows", "type": "Wood Retaining Wall", "categories": ["Structural", "Exterior Renovations"], "timeline": "1 week", "cost": 10000, "year": "2021", "blurb": "The homeowners were dealing with a failing concrete retaining wall that was leaning and becoming unstable. Since the property was already slated for future development, their priority wasn’t a long-term structural solution, but rather a..."}, {"title": "North Vancouver Deck", "slug": "north-vancouver-deck", "url": "https://www.rokaprojects.ca/north-vancouver-deck", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1765505875443-F9P4A59LWU99A0J7B5K7/IMG_3236.jpg", "location": "North Vancouver", "type": "Patio decking, rear gate", "categories": ["Exterior Renovations"], "timeline": "2 weeks", "cost": 20000, "year": "2024", "blurb": "The client had an aging wood plank patio that required constant sanding and repainting, almost every year. They wanted a long-term solution that would look great year-round while dramatically reducing maintenance."}, {"title": "Kitsilano Condo Update", "slug": "kitsilano-condo-update", "url": "https://www.rokaprojects.ca/kitsilano-condo-update", "thumb": "https://images.squarespace-cdn.com/content/v1/5dbc4ea6ce4a730500e5ec38/1765216797075-XZFVJPX7GMXXAMP6376X/IMG_6326.JPEG", "location": "Vancouver", "type": "Bathroom, Kitchen, and general refresh", "categories": ["Renovations & Additions", "Kitchens", "Bathrooms"], "timeline": "6 weeks", "cost": 56000, "year": null, "blurb": "The client wanted to modernize their space by converting a dated bathtub into a custom walk-in shower, a cleaner look, easier access, and a significant upgrade in everyday usability. As part of the refresh, flooring was replaced throughou..."}];
+
+const CATS = ["Renovations & Additions","Kitchens","Bathrooms","Structural","Exterior Renovations"];
+const LOCS = [...new Set(PROJECTS.map(p=>p.location).filter(Boolean))]
+  .sort((a,b)=>{
+    const order=["Vancouver","North Vancouver","West Vancouver","Burnaby"];
+    const ia=order.indexOf(a), ib=order.indexOf(b);
+    if(ia>-1&&ib>-1)return ia-ib;
+    if(ia>-1)return -1; if(ib>-1)return 1;
+    return a.localeCompare(b);
+  });
+
+let activeCat="All", activeLoc="All";
+
+function money(n){return n?("$"+Number(n).toLocaleString("en-CA")):null}
+
+function buildFilters(){
+  const cat=document.getElementById("catFilters");
+  const loc=document.getElementById("locFilters");
+  ["All",...CATS].forEach(c=>{
+    const b=document.createElement("button");
+    b.className="pill cat"+(c==="All"?" active":"");
+    b.textContent=c; b.dataset.val=c;
+    b.onclick=()=>{activeCat=c;render();syncPills()};
+    cat.appendChild(b);
+  });
+  ["All",...LOCS].forEach(l=>{
+    const b=document.createElement("button");
+    b.className="pill loc"+(l==="All"?" active":"");
+    b.textContent=l; b.dataset.val=l;
+    b.onclick=()=>{activeLoc=l;render();syncPills()};
+    loc.appendChild(b);
+  });
+}
+function syncPills(){
+  document.querySelectorAll(".pill.cat").forEach(p=>p.classList.toggle("active",p.dataset.val===activeCat));
+  document.querySelectorAll(".pill.loc").forEach(p=>p.classList.toggle("active",p.dataset.val===activeLoc));
+}
+
+function render(){
+  const grid=document.getElementById("grid");
+  const list=PROJECTS.filter(p=>{
+    const okCat=activeCat==="All"||(p.categories||[]).includes(activeCat);
+    const okLoc=activeLoc==="All"||p.location===activeLoc;
+    return okCat&&okLoc;
+  });
+  document.getElementById("count").textContent=list.length+" project"+(list.length===1?"":"s");
+  grid.innerHTML="";
+  if(!list.length){grid.innerHTML='<div class="empty">No projects match these filters yet.</div>';return}
+  list.forEach((p,i)=>{
+    const a=document.createElement("a");
+    a.className="card"; a.href=p.url; a.target="_top"; a.rel="noopener";
+    a.style.animationDelay=(i*45)+"ms";
+    const meta=[];
+    if(p.cost) meta.push(`<span><small>Cost</small><b>${money(p.cost)}</b></span>`);
+    if(p.timeline) meta.push(`<span><small>Timeline</small><b>${p.timeline}</b></span>`);
+    if(p.year) meta.push(`<span><small>Completed</small><b>${p.year}</b></span>`);
+    a.innerHTML=`
+      <div class="thumb">
+        <img src="${p.thumb}" alt="${p.title} ${p.type||''} by Roka Projects in ${p.location||''}" loading="lazy">
+        ${p.location?`<span class="loc-tag">${p.location}</span>`:""}
+      </div>
+      <div class="body">
+        <h3>${p.title}</h3>
+        ${p.type?`<div class="scope">${p.type}</div>`:""}
+        ${p.blurb?`<p class="blurb">${p.blurb}</p>`:""}
+        ${meta.length?`<div class="meta">${meta.join("")}</div>`:""}
+        <span class="view">View project
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </div>`;
+    grid.appendChild(a);
+  });
+}
+
+buildFilters();
+render();
+
+/* iframe auto-resize: report height to Squarespace parent */
+function postHeight(){
+  const h=document.documentElement.scrollHeight;
+  if(window.parent!==window) window.parent.postMessage({rokaPortfolioHeight:h},"*");
+}
+window.addEventListener("load",postHeight);
+new ResizeObserver(postHeight).observe(document.body);
+document.getElementById("grid").addEventListener("animationend",postHeight);
+</script>
+</body>
+</html>
