@@ -150,6 +150,13 @@ body{
   grid-column:1/-1;text-align:center;padding:60px 0;color:var(--muted);
   font-family:'Quicksand',sans-serif;font-size:16px;
 }
+.note{
+  margin-top:26px;
+  font-family:'Quicksand',sans-serif;font-size:13.5px;line-height:1.5;
+  color:var(--indigo);background:var(--platinum);
+  border-left:3px solid var(--terracotta);
+  padding:12px 16px;border-radius:3px;
+}
 </style>
 </head>
 <body>
@@ -172,6 +179,7 @@ body{
 </div>
 
 <main class="wrap">
+  <div class="note" id="note" style="display:none"></div>
   <div class="grid" id="grid"></div>
 </main>
 
@@ -188,7 +196,27 @@ const LOCS = [...new Set(PROJECTS.map(p=>p.location).filter(Boolean))]
     return a.localeCompare(b);
   });
 
-let activeCat="All", activeLoc="All";
+/* Initial filter state can be set via URL params, e.g. ?category=Kitchens&location=North+Vancouver
+   Matching is forgiving: case-insensitive, and accepts common short forms. */
+const PARAMS=new URLSearchParams(location.search);
+function matchOption(input, options){
+  if(!input) return "All";
+  const want=input.trim().toLowerCase();
+  // exact (case-insensitive)
+  let hit=options.find(o=>o.toLowerCase()===want);
+  if(hit) return hit;
+  // alias / contains (e.g. "kitchen" -> "Kitchens", "north van" -> "North Vancouver")
+  const alias={"renovations":"Renovations & Additions","renovation":"Renovations & Additions",
+    "additions":"Renovations & Additions","kitchen":"Kitchens","bathroom":"Bathrooms",
+    "exterior":"Exterior Renovations","north van":"North Vancouver","west van":"West Vancouver"};
+  if(alias[want] && options.includes(alias[want])) return alias[want];
+  hit=options.find(o=>o.toLowerCase().includes(want)||want.includes(o.toLowerCase()));
+  return hit||"All";
+}
+let activeCat=matchOption(PARAMS.get("category"), CATS);
+let activeLoc=matchOption(PARAMS.get("location"), LOCS);
+// Remember the intended (page-level) filter so the auto-widen note can reference it.
+const intendedCat=activeCat, intendedLoc=activeLoc;
 
 function money(n){return n?("$"+Number(n).toLocaleString("en-CA")):null}
 
@@ -197,14 +225,14 @@ function buildFilters(){
   const loc=document.getElementById("locFilters");
   ["All",...CATS].forEach(c=>{
     const b=document.createElement("button");
-    b.className="pill cat"+(c==="All"?" active":"");
+    b.className="pill cat"+(c===activeCat?" active":"");
     b.textContent=c; b.dataset.val=c;
     b.onclick=()=>{activeCat=c;render();syncPills()};
     cat.appendChild(b);
   });
   ["All",...LOCS].forEach(l=>{
     const b=document.createElement("button");
-    b.className="pill loc"+(l==="All"?" active":"");
+    b.className="pill loc"+(l===activeLoc?" active":"");
     b.textContent=l; b.dataset.val=l;
     b.onclick=()=>{activeLoc=l;render();syncPills()};
     loc.appendChild(b);
@@ -215,13 +243,45 @@ function syncPills(){
   document.querySelectorAll(".pill.loc").forEach(p=>p.classList.toggle("active",p.dataset.val===activeLoc));
 }
 
-function render(){
-  const grid=document.getElementById("grid");
-  const list=PROJECTS.filter(p=>{
-    const okCat=activeCat==="All"||(p.categories||[]).includes(activeCat);
-    const okLoc=activeLoc==="All"||p.location===activeLoc;
+function applyFilter(cat, loc){
+  return PROJECTS.filter(p=>{
+    const okCat=cat==="All"||(p.categories||[]).includes(cat);
+    const okLoc=loc==="All"||p.location===loc;
     return okCat&&okLoc;
   });
+}
+
+function render(){
+  const grid=document.getElementById("grid");
+  const note=document.getElementById("note");
+
+  // Try the active filter first. If it returns nothing, widen in steps so the
+  // grid is never empty: cat+loc -> cat only -> everything.
+  let list=applyFilter(activeCat, activeLoc);
+  let widened=null;
+  if(!list.length && activeLoc!=="All" && activeCat!=="All"){
+    list=applyFilter(activeCat, "All");
+    if(list.length) widened="cat";
+  }
+  if(!list.length){
+    list=applyFilter("All","All");
+    widened="all";
+  }
+
+  // Context note only when we widened away from an intended page-level filter.
+  if(note){
+    if(widened==="cat" && intendedLoc!=="All"){
+      note.style.display="block";
+      const svc=intendedCat==="Renovations & Additions"?"renovation":intendedCat.replace(/s$/,'').toLowerCase();
+      note.innerHTML=`These are ${svc} projects from across the Lower Mainland. We have not added a ${intendedLoc} project in this category yet, so comparable nearby work is shown below.`;
+    } else if(widened==="all" && (intendedCat!=="All"||intendedLoc!=="All")){
+      note.style.display="block";
+      note.innerHTML=`Showing all of our completed work. Use the filters above to narrow by service or area.`;
+    } else {
+      note.style.display="none"; note.innerHTML="";
+    }
+  }
+
   document.getElementById("count").textContent=list.length+" project"+(list.length===1?"":"s");
   grid.innerHTML="";
   if(!list.length){grid.innerHTML='<div class="empty">No projects match these filters yet.</div>';return}
