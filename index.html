@@ -82,14 +82,35 @@ body{
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
+  grid-auto-rows:1fr;
   gap:26px;
-  padding:34px 0 64px;
+  padding:34px 0 24px;
+  align-content:start;
 }
 @media(max-width:920px){.grid{grid-template-columns:repeat(2,1fr);gap:20px}}
 @media(max-width:600px){.grid{grid-template-columns:1fr}}
+.card.placeholder{
+  visibility:hidden;pointer-events:none;border:0;background:transparent;box-shadow:none;
+}
+
+.pager{
+  display:flex;justify-content:center;align-items:center;gap:8px;
+  padding:4px 0 56px;
+}
+.page-btn{
+  font-family:'Quicksand',sans-serif;font-weight:600;font-size:14px;
+  min-width:38px;height:38px;padding:0 12px;
+  border:1px solid var(--line);background:var(--white);color:var(--ink);
+  border-radius:4px;cursor:pointer;transition:all .15s ease;
+}
+.page-btn:hover:not(:disabled){border-color:var(--indigo);color:var(--indigo)}
+.page-btn.active{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.page-btn.nav{font-size:18px;line-height:1}
+.page-btn:disabled{opacity:.35;cursor:default}
 
 .card{
   display:flex;flex-direction:column;
+  min-height:534px;
   background:var(--white);
   border:1px solid var(--line);
   border-radius:var(--radius);
@@ -172,6 +193,7 @@ body{
 
 <main class="wrap">
   <div class="grid" id="grid"></div>
+  <div class="pager" id="pager"></div>
 </main>
 
 <script>
@@ -204,7 +226,7 @@ function buildFilters(){
     const b=document.createElement("button");
     b.className="pill cat"+(c===activeCat?" active":"");
     b.textContent=c; b.dataset.val=c;
-    b.onclick=()=>{activeCat=c;render();syncPills()};
+    b.onclick=()=>{activeCat=c;currentPage=1;render();syncPills()};
     cat.appendChild(b);
   });
 }
@@ -212,14 +234,28 @@ function syncPills(){
   document.querySelectorAll(".pill.cat").forEach(p=>p.classList.toggle("active",p.dataset.val===activeCat));
 }
 
+const PER_PAGE=6;
+let currentPage=1;
+
 function render(){
   const grid=document.getElementById("grid");
+  const pager=document.getElementById("pager");
   const list=PROJECTS.filter(p=>activeCat==="All"||(p.categories||[]).includes(activeCat));
 
+  const totalPages=Math.max(1,Math.ceil(list.length/PER_PAGE));
+  if(currentPage>totalPages) currentPage=totalPages;
+  const start=(currentPage-1)*PER_PAGE;
+  const pageItems=list.slice(start,start+PER_PAGE);
+
   document.getElementById("count").textContent=list.length+" project"+(list.length===1?"":"s");
+
   grid.innerHTML="";
-  if(!list.length){grid.innerHTML='<div class="empty">No projects in this category yet.</div>';return}
-  list.forEach((p,i)=>{
+  if(!list.length){
+    grid.innerHTML='<div class="empty">No projects in this category yet.</div>';
+    pager.innerHTML="";
+    return;
+  }
+  pageItems.forEach((p,i)=>{
     const a=document.createElement("a");
     a.className="card"; a.href=p.url; a.target="_top"; a.rel="noopener";
     a.style.animationDelay=(i*45)+"ms";
@@ -243,19 +279,64 @@ function render(){
       </div>`;
     grid.appendChild(a);
   });
+
+  // Pad the last page with invisible placeholders so every page is the same
+  // height (a full 6-card grid). Keeps the embed from shrinking on the last page.
+  if(list.length>PER_PAGE){
+    for(let k=pageItems.length;k<PER_PAGE;k++){
+      const ph=document.createElement("div");
+      ph.className="card placeholder";
+      ph.setAttribute("aria-hidden","true");
+      ph.innerHTML=`
+        <div class="thumb"></div>
+        <div class="body">
+          <h3>&nbsp;</h3>
+          <div class="scope">&nbsp;</div>
+          <p class="blurb">&nbsp;<br>&nbsp;</p>
+          <div class="meta"><span><small>&nbsp;</small><b>&nbsp;</b></span></div>
+          <span class="view">&nbsp;</span>
+        </div>`;
+      grid.appendChild(ph);
+    }
+  }
+
+  renderPager(totalPages);
+  postHeight();
+}
+
+function renderPager(totalPages){
+  const pager=document.getElementById("pager");
+  pager.innerHTML="";
+  if(totalPages<=1) return;
+
+  const mk=(label,page,opts={})=>{
+    const b=document.createElement("button");
+    b.className="page-btn"+(opts.active?" active":"")+(opts.nav?" nav":"");
+    b.textContent=label;
+    if(opts.disabled){ b.disabled=true; }
+    else b.onclick=()=>{ currentPage=page; render(); };
+    return b;
+  };
+
+  pager.appendChild(mk("‹",currentPage-1,{nav:true,disabled:currentPage===1}));
+  for(let i=1;i<=totalPages;i++){
+    pager.appendChild(mk(String(i),i,{active:i===currentPage}));
+  }
+  pager.appendChild(mk("›",currentPage+1,{nav:true,disabled:currentPage===totalPages}));
 }
 
 buildFilters();
 render();
 
-/* iframe auto-resize: report height to Squarespace parent */
+/* iframe auto-resize: report height to the Squarespace parent so the embed
+   matches the current page height (every full page is the same height). */
 function postHeight(){
   const h=document.documentElement.scrollHeight;
   if(window.parent!==window) window.parent.postMessage({rokaPortfolioHeight:h},"*");
 }
 window.addEventListener("load",postHeight);
+window.addEventListener("resize",postHeight);
 new ResizeObserver(postHeight).observe(document.body);
-document.getElementById("grid").addEventListener("animationend",postHeight);
 </script>
 </body>
 </html>
