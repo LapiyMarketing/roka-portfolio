@@ -317,11 +317,11 @@ function renderPager(totalPages){
     return b;
   };
 
-  pager.appendChild(mk("\u2039",currentPage-1,{nav:true,disabled:currentPage===1}));
+  pager.appendChild(mk("‹",currentPage-1,{nav:true,disabled:currentPage===1}));
   for(let i=1;i<=totalPages;i++){
     pager.appendChild(mk(String(i),i,{active:i===currentPage}));
   }
-  pager.appendChild(mk("\u203a",currentPage+1,{nav:true,disabled:currentPage===totalPages}));
+  pager.appendChild(mk("›",currentPage+1,{nav:true,disabled:currentPage===totalPages}));
 }
 
 buildFilters();
@@ -336,3 +336,6 @@ function postHeight(){
 window.addEventListener("load",postHeight);
 window.addEventListener("resize",postHeight);
 new ResizeObserver(postHeight).observe(document.body);
+</script>
+</body>
+</html>
