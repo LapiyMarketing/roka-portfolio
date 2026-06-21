@@ -247,7 +247,7 @@ function render(){
   const start=(currentPage-1)*PER_PAGE;
   const pageItems=list.slice(start,start+PER_PAGE);
 
-  document.getElementById("count").textContent=list.length+" project"+(list.length===1?"":"s");
+  document.getElementById("count").textContent="";
 
   grid.innerHTML="";
   if(!list.length){
@@ -260,7 +260,6 @@ function render(){
     a.className="card"; a.href=p.url; a.target="_top"; a.rel="noopener";
     a.style.animationDelay=(i*45)+"ms";
     const meta=[];
-    if(p.cost) meta.push(`<span><small>Cost</small><b>${money(p.cost)}</b></span>`);
     if(p.timeline) meta.push(`<span><small>Timeline</small><b>${p.timeline}</b></span>`);
     if(p.year) meta.push(`<span><small>Completed</small><b>${p.year}</b></span>`);
     a.innerHTML=`
@@ -318,11 +317,11 @@ function renderPager(totalPages){
     return b;
   };
 
-  pager.appendChild(mk("‹",currentPage-1,{nav:true,disabled:currentPage===1}));
+  pager.appendChild(mk("\u2039",currentPage-1,{nav:true,disabled:currentPage===1}));
   for(let i=1;i<=totalPages;i++){
     pager.appendChild(mk(String(i),i,{active:i===currentPage}));
   }
-  pager.appendChild(mk("›",currentPage+1,{nav:true,disabled:currentPage===totalPages}));
+  pager.appendChild(mk("\u203a",currentPage+1,{nav:true,disabled:currentPage===totalPages}));
 }
 
 buildFilters();
@@ -337,6 +336,3 @@ function postHeight(){
 window.addEventListener("load",postHeight);
 window.addEventListener("resize",postHeight);
 new ResizeObserver(postHeight).observe(document.body);
-</script>
-</body>
-</html>
