@@ -210,8 +210,12 @@ function matchOption(input, options){
   let hit=options.find(o=>o.toLowerCase()===want);
   if(hit) return hit;
   const alias={"renovations":"Renovations & Additions","renovation":"Renovations & Additions",
-    "additions":"Renovations & Additions","kitchen":"Kitchens","bathroom":"Bathrooms",
-    "exterior":"Exterior Renovations"};
+    "additions":"Renovations & Additions","renovations-additions":"Renovations & Additions",
+    "home-additions":"Renovations & Additions",
+    "kitchen":"Kitchens","kitchens":"Kitchens",
+    "bathroom":"Bathrooms","bathrooms":"Bathrooms",
+    "structural":"Structural","structural-work":"Structural",
+    "exterior":"Exterior Renovations","exterior-renovations":"Exterior Renovations"};
   if(alias[want] && options.includes(alias[want])) return alias[want];
   hit=options.find(o=>o.toLowerCase().includes(want)||want.includes(o.toLowerCase()));
   return hit||"All";
